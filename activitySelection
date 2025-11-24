@@ -1,0 +1,56 @@
+#include <stdio.h>
+
+void swap(int *a,int *b){
+    int t=*a;
+    *a=*b;
+    *b=t;
+}
+
+void sortByFinish(int s[],int f[],int n){
+    int i,j;
+    for(i=0;i<n-1;i++){
+        for(j=i+1;j<n;j++){
+            if(f[j]<f[i]){
+                swap(&f[i],&f[j]);
+                swap(&s[i],&s[j]);
+            }
+        }
+    }
+}
+
+int main(){
+    int n,i;
+    int s[100],f[100];
+
+    printf("Enter number of activities: ");
+    scanf("%d",&n);
+
+    printf("Enter start times:\n");
+    for(i=0;i<n;i++){
+        scanf("%d",&s[i]);
+    }
+
+    printf("Enter finish times:\n");
+    for(i=0;i<n;i++){
+        scanf("%d",&f[i]);
+    }
+
+    sortByFinish(s,f,n);
+
+    printf("Selected activities (0-based index):\n");
+
+    i=0;
+    printf("%d ",i);
+
+    int last=i;
+    int j;
+    for(j=1;j<n;j++){
+        if(s[j] >= f[last]){
+            printf("%d ",j);
+            last=j;
+        }
+    }
+
+    printf("\n");
+    return 0;
+}

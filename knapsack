@@ -1,0 +1,75 @@
+#include <stdio.h>
+
+void swapFloat(float *a,float *b){
+    float t=*a;
+    *a=*b;
+    *b=t;
+}
+
+void swapInt(int *a,int *b){
+    int t=*a;
+    *a=*b;
+    *b=t;
+}
+
+int main(){
+    int n,i,j;
+    float capacity;
+
+    int w[100];
+    int v[100];
+    float ratio[100];
+
+    printf("Enter number of items: ");
+    scanf("%d",&n);
+
+    printf("Enter weights:\n");
+    for(i=0;i<n;i++){
+        scanf("%d",&w[i]);
+    }
+
+    printf("Enter values:\n");
+    for(i=0;i<n;i++){
+        scanf("%d",&v[i]);
+    }
+
+    printf("Enter capacity: ");
+    scanf("%f",&capacity);
+
+    for(i=0;i<n;i++){
+        ratio[i] = (float)v[i] / w[i];
+    }
+
+    for(i=0;i<n-1;i++){
+        for(j=i+1;j<n;j++){
+            if(ratio[j] > ratio[i]){
+                swapFloat(&ratio[i],&ratio[j]);
+                swapInt(&w[i],&w[j]);
+                swapInt(&v[i],&v[j]);
+            }
+        }
+    }
+
+    float totalValue = 0.0;
+    float used = 0.0;
+
+    printf("Selected items (fraction allowed):\n");
+
+    for(i=0;i<n;i++){
+        if(used + w[i] <= capacity){
+            used += w[i];
+            totalValue += v[i];
+            printf("Item %d : 1.0\n",i);
+        }
+        else{
+            float fraction = (capacity - used) / w[i];
+            totalValue += v[i] * fraction;
+            printf("Item %d : %.2f\n",i,fraction);
+            break;
+        }
+    }
+
+    printf("Approx total value = %.2f\n",totalValue);
+
+    return 0;
+}
